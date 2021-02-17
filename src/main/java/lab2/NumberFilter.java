@@ -21,18 +21,23 @@ public class NumberFilter implements Filter
     public void doFilter (ServletRequest request, ServletResponse response, 
                           FilterChain chain) throws IOException, ServletException 
     { 
-         
+        String x="";
+        String y="";
+        String r="";
         try {
-            String x=request.getParameter("X").replace(",",".");
-            String y=request.getParameter("Y").replace(",",".");
-            String r=request.getParameter("R").replace(",",".");
+            x=request.getParameter("coordX").replace(",",".");
+            y=request.getParameter("coordY").replace(",",".");
+            r=request.getParameter("paramR").replace(",",".");
             request.getServletContext().setAttribute("X", Double.parseDouble(x));
             request.getServletContext().setAttribute("Y", Double.parseDouble(y));
-            request.getServletContext().setAttribute("Z", Double.parseDouble(r));
+            request.getServletContext().setAttribute("R", Double.parseDouble(r));
             chain.doFilter(request, response);             
         } catch (Exception e) {
-            request.getServletContext().setAttribute("LastError","Wrong Number format for arguments X Y R");
-            request.getServletContext().getRequestDispatcher("/ErrorPage.jsp").forward(request, response);
+            String message="Some errors catched in filter\n" + e.getMessage() + "\n X Y R:" + x + "\n" + y + "\n" + r;
+            for (StackTraceElement item:e.getStackTrace())
+            message = message + "\n" + item.toString();
+            request.getServletContext().setAttribute("LastError",message);
+            ((HttpServletResponse)response).sendRedirect(((HttpServletRequest)request).getContextPath()+"/ErrorPage.jsp");
         }
         
     } 
