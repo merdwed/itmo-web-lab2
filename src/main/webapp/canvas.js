@@ -27,7 +27,7 @@ function canvas_arrow(context, fromx, fromy, tox, toy) {
   }
   function draw_area(){
     var [w,h]=[canvas.scrollWidth,canvas.scrollHeight];
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "#6c946c";
     ctx.strokeStyle = "green";
     ctx.lineWidth = 1;
     ctx.beginPath();
